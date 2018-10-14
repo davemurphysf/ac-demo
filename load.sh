@@ -1,0 +1,3 @@
+# jq -M -r -c '.[] | { "index" : { "_index" : "autosuggest", "_type" : "_doc", "_id" : .sku } }, {"productName": .name, "productUrl": .url, "productSuggest": (.name | split(" ")) }' /Users/davidmurphy/Downloads/products.json >> products-updated.json
+jq -M -r -c '.[] | { "index" : { "_index" : "autosuggest", "_type" : "_doc", "_id" : .sku } }, {"productName": .name, "productUrl": .url, "productSuggest": .name }' /Users/davidmurphy/Downloads/products.json >> products-updated.json
+curl -s -H "Content-Type: application/x-ndjson" -XPOST localhost:9200/_bulk --data-binary @products-updated.json | jq .
